@@ -16,7 +16,7 @@ class CreateDialiesTable extends Migration
         Schema::create('dialies', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->dateTime('date');
+            $table->dateTime('datetime');
             $table->string('content');
             $table->timestamps();
             $table->foreign('user_id')
