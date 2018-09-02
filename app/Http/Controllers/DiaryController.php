@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Diary;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class DiaryController extends Controller
@@ -13,7 +15,6 @@ class DiaryController extends Controller
      */
     public function index()
     {
-        //
         $diaries = Diary::all();
         return $diaries->toArray();
     }
