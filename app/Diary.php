@@ -13,4 +13,9 @@ class Diary extends Model
         'datetime' => 'required|date',
         'content' => 'required|string', 
     );
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
