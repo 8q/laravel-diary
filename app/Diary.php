@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Dialy extends Model
+class Diary extends Model
 {
     protected $guarded = array('id');
 

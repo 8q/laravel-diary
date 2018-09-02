@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDialiesTable extends Migration
+class CreateDiariesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateDialiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('dialies', function (Blueprint $table) {
+        Schema::create('diaries', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->dateTime('datetime');
@@ -32,6 +32,6 @@ class CreateDialiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dialies');
+        Schema::dropIfExists('diaries');
     }
 }

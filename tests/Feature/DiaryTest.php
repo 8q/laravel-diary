@@ -8,10 +8,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Validator;
 
 use App\User;
-use App\Dialy;
+use App\Diary;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class DialyTest extends TestCase
+class DiaryTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -22,7 +22,7 @@ class DialyTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $dialyCols = [
+        $diaryCols = [
             [
                 'user_id' => $user->id,
             ],
@@ -38,13 +38,13 @@ class DialyTest extends TestCase
             ]
         ];
 
-        foreach ($dialyCols as $dialyCol) {
-            $dialy = factory(Dialy::class)->make($dialyCol);
-            $validator = Validator::make($dialy->toArray(), Dialy::$rules);
+        foreach ($diaryCols as $diaryCol) {
+            $diary = factory(Diary::class)->make($diaryCol);
+            $validator = Validator::make($diary->toArray(), Diary::$rules);
 
             $this->assertFalse($validator->fails());
-            $dialy->save();
-            $this->assertDatabaseHas("dialies", $dialy->toArray());
+            $diary->save();
+            $this->assertDatabaseHas("diaries", $diary->toArray());
         }
     }
 
@@ -55,7 +55,7 @@ class DialyTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $dialyCols = [
+        $diaryCols = [
             [
                 'user_id' => 'hogehoge', // idに数字以外を渡している
             ],
@@ -71,9 +71,9 @@ class DialyTest extends TestCase
             ]
         ];
 
-        foreach ($dialyCols as $dialyCol) {
-            $dialy = factory(Dialy::class)->make($dialyCol);
-            $validator = Validator::make($dialy->toArray(), Dialy::$rules);
+        foreach ($diaryCols as $diaryCol) {
+            $diary = factory(Diary::class)->make($diaryCol);
+            $validator = Validator::make($diary->toArray(), Diary::$rules);
             
             $this->assertTrue($validator->fails());
         }
