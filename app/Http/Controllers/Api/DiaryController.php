@@ -18,8 +18,7 @@ class DiaryController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $diaries = $user->diaries()->orderBy('datetime', 'desc')->orderBy('updated_at', 'desc')->get();
+        $diaries = Diary::authUserDiaries()->orderByTime()->get();
         return response()->json($diaries->toArray(), 200);
     }
 
@@ -41,21 +40,21 @@ class DiaryController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-        $diaryCol = [
-            'user_id' => $user->id,
-            'datetime' => $request->input('diary.datetime'),
-            'content' => $request->input('diary.content'),
-        ];
-        $validator = Validator::make($diaryCol, Diary::$rules);
-        if (!$validator->fails()) {
-            $diary = new Diary;
-            $diary->fill($diaryCol)->save();
+        $diary = new Diary();
+        $params = $request->json()->get('diary');
+        if (!$params) {
+            return response()->json(['message' => 'Bad request'], 400);
+        }
+
+        $diary->fill($params);
+        $diary->user_id = Auth::user()->id;
+        if (!$diary->validator()->fails()) {
+            $diary->save();
             return response()->json($diary->toArray(), 201);
         } else {
             return response()->json(['message' => 'Bad request'], 400);
         }
-
+    
     }
 
     /**
@@ -66,8 +65,7 @@ class DiaryController extends Controller
      */
     public function show($id)
     {
-        $user = Auth::user();
-        $diary = Diary::where('user_id', $user->id)->where('id', $id)->first();
+        $diary = Diary::authUserDiaries()->find($id);
         if ($diary) {
             return response()->json($diary->toArray(), 200);
         } else {
@@ -95,20 +93,22 @@ class DiaryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = Auth::user();
-        $diary = Diary::where('user_id', $user->id)->where('id', $id)->first();
-        if ($diary) {
-            $diaryCol = $request->input('diary');
-            unset($diaryCol['user_id']);
-            $validator = Validator::make($diaryCol, ['datetime' => 'date', 'content' => 'string']);
-            if (!$validator->fails()) {
-                $diary->update($diaryCol);
-                return response()->json($diary->toArray(), 200);
-            } else {
-                return response()->json(['message' => 'Bad request'], 400);
-            }
-        } else {
+        $diary = Diary::authUserDiaries()->find($id);
+        if (!$diary) {
             return response()->json(['message' => 'Not found'], 404);
+        }
+
+        $params = $request->json()->get('diary');
+        if (!$params) {
+            return response()->json(['message' => 'Bad request'], 400);
+        }
+
+        $diary->fill($params);
+        if (!$diary->validator()->fails()) {
+            $diary->save();
+            return response()->json($diary->toArray(), 201);
+        } else {
+            return response()->json(['message' => 'Bad request'], 400);
         }
     }
 
@@ -120,8 +120,7 @@ class DiaryController extends Controller
      */
     public function destroy($id)
     {
-        $user = Auth::user();
-        $diary = Diary::where('user_id', $user->id)->where('id', $id)->first();
+        $diary = Diary::authUserDiaries()->find($id);
         if ($diary) {
             $diary->delete();
             return response()->json(['message' => 'Deleted'], 200);
