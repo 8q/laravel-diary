@@ -1,6 +1,9 @@
 # laravel-diary
 日記アプリ(laravelの練習)
 
+![screenshot1](./screenshot1.png)
+![screenshot2](./screenshot2.png)
+
 ## 導入手順
 ```
 touch database/database.sqlite
