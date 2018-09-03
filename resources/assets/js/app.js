@@ -15,8 +15,15 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+import AsideComponent from './components/AsideComponent.vue'
+import DiaryComponent from './components/DiaryComponent.vue'
+import SubmitComponent from './components/SubmitComponent.vue'
 
 const app = new Vue({
     el: '#app',
+    components: {
+        AsideComponent,
+        DiaryComponent,
+        SubmitComponent,
+    }
 });

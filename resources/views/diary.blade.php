@@ -7,9 +7,7 @@
             <aside-component></aside-component>
         </div>
         <div class="col-md-9">
-            <diary-component></diary-component>
-            <diary-component></diary-component>
-            <diary-component></diary-component>
+            <submit-component></submit-component>
         </div>
     </div>
 </div>
