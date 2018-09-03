@@ -7,9 +7,10 @@
             <aside-component></aside-component>
         </div>
         <div class="col-md-9">
-            <diary-component></diary-component>
-            <diary-component></diary-component>
-            <diary-component></diary-component>
+            <diary-component v-for="diary in diaries"
+                v-bind:key="diary.id"
+                v-bind:diary="diary">
+            </diary-component>
         </div>
     </div>
 </div>

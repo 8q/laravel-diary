@@ -13988,7 +13988,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(46);
+module.exports = __webpack_require__(48);
 
 
 /***/ }),
@@ -14001,7 +14001,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_AsideComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_AsideComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_DiaryComponent_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_DiaryComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_DiaryComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_SubmitComponent_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_SubmitComponent_vue__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_SubmitComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_SubmitComponent_vue__);
 
 /**
@@ -14025,12 +14025,26 @@ window.Vue = __webpack_require__(37);
 
 
 var app = new Vue({
-  el: '#app',
-  components: {
-    AsideComponent: __WEBPACK_IMPORTED_MODULE_0__components_AsideComponent_vue___default.a,
-    DiaryComponent: __WEBPACK_IMPORTED_MODULE_1__components_DiaryComponent_vue___default.a,
-    SubmitComponent: __WEBPACK_IMPORTED_MODULE_2__components_SubmitComponent_vue___default.a
-  }
+    el: '#app',
+    components: {
+        AsideComponent: __WEBPACK_IMPORTED_MODULE_0__components_AsideComponent_vue___default.a,
+        DiaryComponent: __WEBPACK_IMPORTED_MODULE_1__components_DiaryComponent_vue___default.a,
+        SubmitComponent: __WEBPACK_IMPORTED_MODULE_2__components_SubmitComponent_vue___default.a
+    },
+    data: function data() {
+        return {
+            diaries: {}
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        axios.get('/api/diary').then(function (response) {
+            _this.diaries = response.data;
+        }, function (error) {
+            console.log(error);
+        });
+    }
 });
 
 /***/ }),
@@ -47397,9 +47411,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(3)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(43)
 /* template */
-var __vue_template__ = __webpack_require__(43)
+var __vue_template__ = __webpack_require__(44)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47439,32 +47453,51 @@ module.exports = Component.exports
 
 /***/ }),
 /* 43 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['diary']
+});
+
+/***/ }),
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("日付")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _vm._v("\n            内容\n            \n        ")
-        ])
+  return _c("div", [
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(_vm._s(_vm.diary.datetime))
       ]),
       _vm._v(" "),
-      _c("br")
-    ])
-  }
-]
+      _c("div", { staticClass: "card-body" }, [
+        _vm._v("\n            " + _vm._s(_vm.diary.content) + "\n        ")
+      ])
+    ]),
+    _vm._v(" "),
+    _c("br")
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -47475,15 +47508,15 @@ if (false) {
 }
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(3)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(46)
 /* template */
-var __vue_template__ = __webpack_require__(45)
+var __vue_template__ = __webpack_require__(47)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47522,29 +47555,177 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 45 */
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            datetime: '',
+            content: ''
+        };
+    },
+
+    methods: {
+        handleClick: function handleClick() {
+            axios.post('/api/diary', {
+                diary: {
+                    datetime: this.datetime,
+                    content: this.content
+                }
+            }).then(function (response) {
+                window.location.href = '/home';
+            }, function (error) {
+                console.log(error);
+            });
+        },
+        getNowYMD: function getNowYMD() {
+            var dt = new Date();
+            var y = dt.getFullYear();
+            var m = ("00" + (dt.getMonth() + 1)).slice(-2);
+            var d = ("00" + dt.getDate()).slice(-2);
+            var result = y + "-" + m + "-" + d;
+            return result;
+        }
+    },
+    computed: {
+        canPush: function canPush() {
+            return this.datetime && this.content;
+        }
+    },
+    mounted: function mounted() {
+        this.datetime = this.getNowYMD();
+    }
+});
+
+/***/ }),
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [_vm._v("投稿する")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _vm._v("\n        フォーム\n        \n    ")
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header" }, [_vm._v("投稿する")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", [
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-2 col-form-label",
+              attrs: { for: "date-input" }
+            },
+            [_vm._v("日付")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-10" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.datetime,
+                  expression: "datetime"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "date", id: "date-input" },
+              domProps: { value: _vm.datetime },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.datetime = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-sm-2 col-form-label",
+              attrs: { for: "inputTextarea" }
+            },
+            [_vm._v("日記")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-10" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.content,
+                  expression: "content"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                placeholder: "今日はどうだった？",
+                id: "inputTextarea",
+                rows: "4"
+              },
+              domProps: { value: _vm.content },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.content = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { disabled: !_vm.canPush },
+            on: { click: _vm.handleClick }
+          },
+          [_vm._v("投稿する")]
+        )
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -47555,7 +47736,7 @@ if (false) {
 }
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

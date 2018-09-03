@@ -1,13 +1,18 @@
 <template>
     <div>
         <div class="card">
-            <div class="card-header">日付</div>
+            <div class="card-header">{{ diary.datetime }}</div>
 
             <div class="card-body">
-                内容
-                
+                {{ diary.content }}
             </div>
         </div>
         <br />
     </div>
 </template>
+
+<script>
+export default {
+    props: ['diary']
+}
+</script>

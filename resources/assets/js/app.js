@@ -25,5 +25,17 @@ const app = new Vue({
         AsideComponent,
         DiaryComponent,
         SubmitComponent,
+    },
+    data() {
+        return {
+            diaries: {}
+        }
+    },
+    created() {
+        axios.get('/api/diary').then(response => {
+            this.diaries = response.data;
+        }, error => {
+            console.log(error);
+        });
     }
 });

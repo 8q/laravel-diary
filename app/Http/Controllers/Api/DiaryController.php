@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Diary;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 
 class DiaryController extends Controller
 {
@@ -18,7 +19,7 @@ class DiaryController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $diaries = $user->diaries;
+        $diaries = $user->diaries()->orderBy('datetime', 'desc')->orderBy('updated_at', 'desc')->get();
         return response()->json($diaries->toArray(), 200);
     }
 
