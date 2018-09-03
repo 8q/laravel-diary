@@ -9,4 +9,11 @@
 touch database/database.sqlite
 touch database/database_test.sqlite
 cp .env.example .env
+php artisan migrate
+npm install
+```
+## ビルド&実行
+```
+npm run dev
+php artisan serve
 ```
